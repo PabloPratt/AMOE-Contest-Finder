@@ -6,8 +6,9 @@ let db: ReturnType<typeof drizzle> | null = null;
 
 export function getDb() {
   if (!db) {
+    const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
     const pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
     });
 
     db = drizzle(pool, { schema });

@@ -60,27 +60,10 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="mb-6 p-4 bg-yellow-900 bg-opacity-30 border border-yellow-800 rounded-lg">
-          <p className="text-yellow-200 text-sm mb-3">
-            ⚠️ <strong>Database Setup Required</strong><br/>
-            To use this app, add a PostgreSQL database to your Vercel project.
-          </p>
-          <div className="text-xs text-yellow-100 space-y-2">
-            <p><strong>Option 1: Quick Setup (Recommended)</strong></p>
-            <p className="font-mono bg-black bg-opacity-30 p-2 rounded">
-              vercel postgres create
-            </p>
-            <p className="mt-2"><strong>Option 2: Use Existing Database</strong></p>
-            <p>Set DATABASE_URL and ANTHROPIC_API_KEY in Vercel Environment Variables</p>
-          </div>
-        </div>
-
         <div className="flex gap-4 mb-6">
           <button
             onClick={() => setScraperOpen(!scraperOpen)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition disabled:opacity-50"
-            disabled={true}
-            title="Database must be configured first"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
           >
             {scraperOpen ? 'Hide Scraper' : 'Scrape Contests'}
           </button>
