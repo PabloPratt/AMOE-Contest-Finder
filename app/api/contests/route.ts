@@ -13,24 +13,25 @@ export async function GET(request: NextRequest) {
   const skipExpired = searchParams.get("skipExpired") !== "false";
 
   try {
-    let query = db
-      .select()
-      .from(contests)
-      .where(
-        and(
-          eq(contests.hasAMOE, true),
-          eq(contests.relatedEvent, relatedEvent),
-          skipExpired ? gt(contests.endDate, new Date()) : undefined
-        )
-      );
+    const conditions = [
+      eq(contests.hasAMOE, true),
+      eq(contests.relatedEvent, relatedEvent),
+    ];
 
-    if (sortBy === "value") {
-      query = query.orderBy(desc(contests.estimatedValue));
-    } else {
-      query = query.orderBy(contests.endDate);
+    if (skipExpired) {
+      conditions.push(gt(contests.endDate, new Date()));
     }
 
-    const result = await query.limit(limit);
+    let baseQuery = db
+      .select()
+      .from(contests)
+      .where(and(...conditions));
+
+    const finalQuery = sortBy === "value"
+      ? baseQuery.orderBy(desc(contests.estimatedValue)).limit(limit)
+      : baseQuery.orderBy(contests.endDate).limit(limit);
+
+    const result = await finalQuery;
 
     return NextResponse.json(result);
   } catch (error) {
