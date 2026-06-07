@@ -156,7 +156,12 @@ Focus on widely popular contests. Return as JSON array of contest names and thei
     const textContent = response.content.find((c) => c.type === "text");
     if (!textContent || textContent.type !== "text") return [];
 
-    return textContent.text;
+    try {
+      const parsed = JSON.parse(textContent.text);
+      return Array.isArray(parsed) ? parsed.map(String) : [textContent.text];
+    } catch {
+      return [textContent.text];
+    }
   } catch (error) {
     console.error("Error finding expiring contests:", error);
     return [];

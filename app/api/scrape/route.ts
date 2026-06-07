@@ -45,7 +45,13 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      let analysis = {
+      let analysis: {
+        hasAMOE: boolean;
+        amoeMethod: string;
+        physicalRequirements: string;
+        estimatedValue?: number | string;
+        verificationScore: number;
+      } = {
         hasAMOE: true,
         amoeMethod: contest.amoeMethod || "",
         physicalRequirements: contest.physicalRequirements || "",
@@ -54,7 +60,11 @@ export async function POST(request: NextRequest) {
       };
 
       if (contest.rules) {
-        analysis = await analyzeContestRules(contest.title, contest.rules);
+        const ruleAnalysis = await analyzeContestRules(contest.title, contest.rules);
+        analysis = {
+          ...analysis,
+          ...ruleAnalysis,
+        };
       }
 
       if (!analysis.hasAMOE) continue;
