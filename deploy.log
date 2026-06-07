@@ -1,0 +1,28 @@
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 54.7.1 (Node.js 26.0.0)
+The "--name" option is deprecated (https://vercel.link/name-flag)
+
+  Set up "~/contest-finder"
+Loading teams…
+{
+  "status": "action_required",
+  "reason": "missing_scope",
+  "message": "Provide --team or --scope explicitly. No default is applied in non-interactive mode.",
+  "choices": [
+    {
+      "id": "team_RQPNBdoifxNJa00Y8bEHtDku",
+      "name": "signalinput25-s-projects"
+    }
+  ],
+  "next": [
+    {
+      "command": "vercel link --name contest-finder --scope signalinput25-s-projects",
+      "when": "Link first (then run any command without --scope)"
+    },
+    {
+      "command": "vercel --yes --name contest-finder --scope signalinput25-s-projects",
+      "when": "Run this command with scope (no link)"
+    }
+  ],
+  "hint": "Run one of the commands in next[] to complete without prompting."
+}

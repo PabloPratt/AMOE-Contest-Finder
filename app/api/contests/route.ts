@@ -1,6 +1,6 @@
 import { getDb } from "@/lib/db";
 import { contests } from "@/db/schema";
-import { desc, lt, gt, and } from "drizzle-orm";
+import { desc, lt, gt, and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
       .from(contests)
       .where(
         and(
-          contests.hasAMOE.equals(true),
-          contests.relatedEvent.equals(relatedEvent),
+          eq(contests.hasAMOE, true),
+          eq(contests.relatedEvent, relatedEvent),
           skipExpired ? gt(contests.endDate, new Date()) : undefined
         )
       );
