@@ -13,6 +13,10 @@ export async function GET(request: NextRequest) {
   const skipExpired = searchParams.get("skipExpired") !== "false";
 
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json([], { status: 200 });
+    }
+
     const conditions = [
       eq(contests.hasAMOE, true),
       eq(contests.relatedEvent, relatedEvent),
@@ -36,9 +40,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error fetching contests:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch contests" },
-      { status: 500 }
-    );
+    return NextResponse.json([], { status: 200 });
   }
 }

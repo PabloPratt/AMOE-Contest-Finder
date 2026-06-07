@@ -15,6 +15,16 @@ interface ApplicationRequest {
 }
 
 export async function POST(request: NextRequest) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      {
+        error: "Database not configured",
+        message: "Please set up a PostgreSQL database and add the DATABASE_URL environment variable to Vercel."
+      },
+      { status: 503 }
+    );
+  }
+
   const db = getDb();
   const body: ApplicationRequest = await request.json();
   const { contestId, email, name, automate } = body;
