@@ -40,7 +40,19 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchContests(sortBy);
+    const initializeApp = async () => {
+      // Seed database on first load if empty
+      try {
+        const response = await fetch('/api/seed', { method: 'POST' });
+        if (!response.ok) console.warn('Could not seed database');
+      } catch (error) {
+        console.warn('Seed request failed:', error);
+      }
+      // Fetch contests
+      fetchContests(sortBy);
+    };
+
+    initializeApp();
   }, [sortBy]);
 
   const handleScraperComplete = () => {
